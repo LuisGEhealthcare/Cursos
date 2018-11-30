@@ -18,23 +18,11 @@ public class MainCron {
     @Scheduled(cron="${cron.expression}")
     private void exec(){  
     	try {
-    		String nomeBkp = "C:/Users/212719040/Desktop/nomeome123.sql";
+    		String nomeBkp = "/home/luis/Desktop/nomeome123.sql";
     		Runtime runtime = Runtime.getRuntime();
-    		Process child = runtime.exec("cmd.exe /c mysqldump -h g.cowreym0hdhn.sa-east-1.rds.amazonaws.com -u g -p12345678 NOVO > " + nomeBkp);
-    		File backupFile = new File(nomeBkp);
-    		FileWriter fw = new FileWriter(backupFile);
-    		InputStreamReader irs = new InputStreamReader(child.getInputStream());
-    	    BufferedReader br = new BufferedReader(irs);
-
-    	    String line;
-            while( (line=br.readLine()) != null )
-            {
-                fw.write(line + "\n");
-            }
-            fw.close();
-            irs.close();
-            br.close();
-    	    System.out.println("Backup realizado");
+    		Process child = runtime.exec("mysqldump -v -v -v --host=g.cowreym0hdhn.sa-east-1.rds.amazonaws.com --user=g --port=3306 --password=12345678 --protocol=tcp --force --allow-keywords --compress --add-drop-table --result-file=" + nomeBkp + " --databases NOVO ");
+   
+    	    System.out.println("Backup realizado" + child);
     	    
     	    
     	}  catch (IOException ex) {
